@@ -1,0 +1,41 @@
+@startuml activityMaintenance
+|Admin| 
+start
+:Pilih menu Maintenance;
+
+|UI|
+:Request data ke BLL;
+
+|BLL|
+:Ambil data ke DAL;
+
+|DAL|
+:Kirim data ke BLL;
+
+|BLL|
+:Kirim data ke UI;
+
+|UI|
+:Tampilkan data maintenance;
+
+|Admin|
+if (CRUD Maintenance?) then (Ya)
+  |UI|
+  :tampilkan form input data maintenance;
+  |Admin|
+  :Input data maintenance;
+  :Klik Simpan;
+  |UI|
+  :Kirim data ke BLL;
+  |BLL|
+  :Validasi input (tidak kosong);
+  |DAL|
+  :Simpan ke Database;
+  |BLL|
+  :Kirim konfirmasi ke UI;
+  |UI|
+  :Tampilkan Konfirmasi Berhasil;
+else (Tidak)
+endif
+stop
+@enduml

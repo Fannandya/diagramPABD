@@ -1,0 +1,39 @@
+@startuml usecaseCombined
+left to right direction
+actor Admin
+
+rectangle "Sistem Manajemen Inventaris" {
+  usecase "Kelola Data Barang" as UC2
+  usecase "Kelola Maintenance" as UC3
+  usecase "Peminjaman Barang" as UC4
+  usecase "Cek Ketersediaan Stok" as UC5
+  usecase "Pengecekan Rutin" as UC6
+  usecase "lihat report" as UC7
+  usecase "Cetak report" as UC8
+  usecase "CRUD Maintenance" as UC9
+  usecase "CRUD Kelola Barang" as UC10
+  usecase "CRUD Pengecekan Rutin" as UC11
+  usecase "Ambil data untuk report" as UC12
+  usecase "simpan data peminjaman" as UC13
+  usecase "simpan data pengecekan rutin" as UC14
+  usecase "simpan data maintenance" as UC15
+  usecase "simpan data barang" as UC16
+}
+
+Admin -- UC2
+Admin -- UC3
+Admin -- UC4
+Admin -- UC6
+Admin -- UC7
+
+UC4 ..> UC5 : <<include>>
+UC7 <.. UC8 : <<extend>>
+UC3 <.. UC9 : <<extend>>
+UC2 <.. UC10 : <<extend>>
+UC6 <.. UC11 : <<extend>>
+UC8 ..> UC12 : <<include>>
+UC5 ..> UC13 : <<include>>
+UC11 ..> UC14 : <<include>>
+UC9 ..> UC15 : <<include>>
+UC10 ..> UC16 : <<include>>
+@enduml

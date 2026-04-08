@@ -1,0 +1,29 @@
+@startuml activityPengecekanRutin
+actor Admin
+participant "UI" as Frontend
+participant "BLL" as Backend
+participant "DAL" as Database
+Admin -> Frontend: Buka aplikasi
+Frontend --> Admin: Tampilkan dashboard admin
+Admin -> Frontend: Pilih menu pengecekan rutin
+Frontend --> Admin: Tampilkan form pengecekan rutin
+Admin -> Frontend: Input data pengecekan rutin
+Frontend -> Backend: Kirim data pengecekan rutin
+Backend -> Database: Simpan data pengecekan rutin
+Database --> Backend: Konfirmasi penyimpanan
+Backend --> Frontend: Kirim konfirmasi pengecekan rutin berhasil
+Frontend --> Admin: Tampilkan konfirmasi pengecekan rutin berhasil
+alt hapus data pengecekan rutin
+Admin -> Frontend: Pilih opsi hapus data pengecekan rutin
+Frontend -> Backend: Kirim request data pengecekan rutin
+Backend -> Database: Ambil data pengecekan rutin
+Database --> Backend: Kirim data pengecekan rutin
+Backend --> Frontend: Tampilkan data pengecekan rutin
+Frontend --> Admin: Berikan pilihan data yang akan dihapus
+Admin -> Frontend: Pilih data pengecekan rutin yang akan dihapus
+Frontend -> Backend: Kirim request hapus data
+Backend -> Database: Hapus data pengecekan rutin
+Database --> Backend: Konfirmasi penghapusan
+Backend --> Frontend: Tampilkan konfirmasi penghapusan berhasil
+end
+@enduml

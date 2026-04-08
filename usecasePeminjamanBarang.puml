@@ -1,0 +1,14 @@
+@startuml usecasePeminjamanBarang
+left to right direction
+actor Admin
+
+rectangle "Sistem Peminjaman Barang" {
+  usecase "Input Data Peminjaman" as UC1
+  usecase "Cek Ketersediaan Barang" as UC2
+  usecase "Simpan Transaksi Peminjaman" as UC3
+}
+
+Admin -- UC1
+UC1 ..> UC2 : <<include>>
+UC2 ..> UC3 : <<include>>
+@enduml

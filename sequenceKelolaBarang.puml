@@ -1,0 +1,39 @@
+@startuml activityKelolaBarang
+actor Admin
+participant "UI" as Frontend
+participant "BLL" as Backend
+participant "DAL" as Database
+Admin -> Frontend: Buka aplikasi
+Frontend --> Admin: Tampilkan dashboard admin
+Admin -> Frontend: Pilih menu kelola barang
+Frontend -> Backend: Kirim request data barang
+Backend -> Database: Ambil data barang
+Database --> Backend: Kirim data barang
+Backend --> Frontend: Kirim data barang
+Frontend --> Admin: Tampilkan data barang
+alt admin ingin tambah barang
+Frontend --> Admin: Tampilkan form kelola barang
+Admin -> Frontend: Input data barang 
+Frontend -> Backend: Validasi data barang
+Backend -> Database: Simpan data barang
+Database --> Backend: Konfirmasi penyimpanan
+Backend -> Database: Ambil data barang
+Database --> Backend: Kirim data barang
+Backend --> Frontend: Tampilkan konfirmasi penyimpanan berhasil
+Frontend --> Admin: Tampilkan data yang sudah di update
+end
+alt admin ingin hapus data barang
+Admin -> Frontend: Pilih opsi hapus barang
+Frontend -> Backend: Kirim request data barang
+Backend -> Database: Ambil data barang
+Database --> Backend: Kirim data barang
+Backend --> Frontend: Kirim data barang
+Frontend --> Admin: Berikan pilihan data yang akan dihapus
+Admin -> Frontend: Pilih data barang yang akan dihapus
+Frontend -> Backend: Kirim request hapus data
+Backend -> Database: Hapus data barang
+Database --> Backend: Konfirmasi penghapusan
+Backend --> Frontend: Tampilkan konfirmasi penghapusan berhasil
+Frontend --> Admin: Tampilkan konfirmasi penghapusan berhasil
+end
+@enduml

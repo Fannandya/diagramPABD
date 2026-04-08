@@ -1,0 +1,23 @@
+@startuml activityPeminjamanBarang
+actor Admin
+participant "UI" as Frontend
+participant "BLL" as Backend
+participant "DAL" as Database
+Admin -> Frontend: Buka aplikasi
+Frontend --> Admin: Tampilkan dashboard admin
+Admin -> Frontend: Pilih menu peminjaman barang 
+Frontend --> Admin: Tampilkan form peminjaman barang
+Admin -> Frontend: Input data peminjaman (nama barang, jumlah, tanggal pinjam, nama ruangan)
+Frontend -> Backend: Validasi data peminjaman   
+Backend -> Database: Cek ketersediaan barang
+Database --> Backend: Ketersediaan barang
+alt Barang Tersedia 
+Backend -> Database: Simpan data peminjaman
+Database --> Backend: Konfirmasi penyimpanan
+Backend --> Frontend: Kirim konfirmasi peminjaman berhasil
+Frontend --> Admin: Tampilkan konfirmasi peminjaman berhasil
+else Barang Tidak Tersedia
+Backend --> Frontend: Kirim pesan barang tidak tersedia
+Frontend --> Admin: Tampilkan pesan barang tidak tersedia
+end
+@enduml

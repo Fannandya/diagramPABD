@@ -1,0 +1,14 @@
+@startuml usecaseKelolaBarang
+left to right direction
+actor Admin
+
+rectangle "Sistem Kelola Barang" {
+  usecase "Lihat Data Barang" as UC1
+  usecase "Tambah Data Barang" as UC2
+  usecase "Hapus Data Barang" as UC3
+}
+
+Admin -- UC1
+Admin -- UC2
+Admin -- UC3
+@enduml

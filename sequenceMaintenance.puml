@@ -1,0 +1,22 @@
+@startuml activityMaintenance
+actor Admin
+participant "UI" as Frontend
+participant "BLL" as Backend
+participant "DAL" as Database
+Admin -> Frontend: Buka aplikasi
+Frontend --> Admin: Tampilkan dashboard admin
+Admin -> Frontend: Pilih menu maintenance
+Frontend -> Backend: Request data maintenance
+Backend -> Database: Ambil data maintenance
+Database --> Backend: Kirim data maintenance
+Backend --> Frontend: Kirim data maintenance
+Frontend --> Admin: Tampilkan data maintenance
+alt crud maintenance
+Admin -> Frontend: Pilih opsi tambah/update/hapus data maintenance
+Frontend -> Backend: Kirim request tambah/update/hapus data maintenance
+Backend -> Database: Tambah/update/hapus data maintenance
+Database --> Backend: Konfirmasi tambah/update/hapus data maintenance
+Backend --> Frontend: Tampilkan konfirmasi operasi
+Frontend --> Admin: Tampilkan konfirmasi operasi
+end
+@enduml

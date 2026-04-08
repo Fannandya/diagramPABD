@@ -1,0 +1,42 @@
+@startuml ERD
+entity "Barang" {
+  *idBarang : INT <<PK>>
+  --
+  namaBarang : VARCHAR(100)
+  stok : INT
+  kategori : VARCHAR(50)
+}
+
+entity "Peminjaman" {
+  *idPinjam : INT <<PK>>
+  --
+  idBarang : INT <<FK>>
+  namaBarang : reference Barang(namaBarang)
+  namaPeminjam : VARCHAR(100)
+  jumlah : INT
+  tglPinjam : DATE
+  namaRuangan : VARCHAR(100)
+}
+
+entity "Maintenance" {
+  *id_mt : INT <<PK>>
+  --
+  idBarang : INT <<FK>>
+  namaBarang : reference Barang(namaBarang)
+  tglMaintenance : DATE
+  keterangan : TEXT
+}
+
+entity "PengecekanRutin" {
+  *idCek : INT <<PK>>
+  --
+  idBarang : INT <<FK>>
+  namaBarang : reference Barang(namaBarang)
+  tglCek : DATE
+  kondisi : VARCHAR(50)
+}
+
+Barang ||--o{ Peminjaman
+Barang ||--o{ Maintenance
+Barang ||--o{ PengecekanRutin
+@enduml

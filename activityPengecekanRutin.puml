@@ -1,0 +1,30 @@
+@startuml activityPengecekanRutin
+|Admin|
+start
+
+repeat
+  |Admin|
+  :Isi form pengecekan;
+  :Klik Simpan;
+
+  |UI|
+  :Kirim data ke BLL;
+
+  |BLL|
+  :Kirim data ke DAL;
+
+  |DAL|
+  :Simpan data ke database;
+
+  |BLL|
+  :Kirim konfirmasi ke UI;
+
+  |UI|
+  :Tampilkan pesan sukses;
+
+  |Admin|
+repeat while (Lanjut isi form?) is (Ya)
+->Tidak;
+
+stop
+@enduml

@@ -1,0 +1,12 @@
+@startuml usecaseMaintenance
+left to right direction
+actor Admin
+
+rectangle "Sistem Maintenance" {
+  usecase "Lihat Data Maintenance" as UC1
+  usecase "Kelola Data Maintenance (CRUD)" as UC2
+}
+
+Admin -- UC1
+Admin -- UC2
+@enduml

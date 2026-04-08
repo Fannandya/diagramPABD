@@ -1,0 +1,37 @@
+@startuml activityReport
+|Admin|
+start
+:Klik tombol Report;
+
+|UI|
+:Request data report ke BLL;
+
+|BLL|
+:Ambil data report ke DAL;
+
+|DAL|
+:Kirim data report ke BLL;
+
+|BLL|
+:Kirim data report ke UI;
+
+|UI|
+:Tampilkan preview report di tabel;
+
+|Admin|
+if (Ingin cetak ke Excel?) then (Ya)
+  |UI|
+  :Kirim request export ke BLL;
+  |BLL|
+  :Proses data ke format Excel;
+  |UI|
+  :Tampilkan file Excel;
+  |Admin|
+  :Download dan Simpan file ke komputer;
+else (Tidak/Hanya Lihat)
+  |Admin|
+  :Selesai melihat tabel;
+endif
+
+stop
+@enduml

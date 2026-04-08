@@ -1,0 +1,76 @@
+@startuml classDiagram
+skinparam classAttributeIconSize 0
+skinparam Style strictuml
+
+' --- Entities / Models ---
+
+class Barang {
+  ' Atribut (Ciri-ciri/Data)
+  + id_barang : int
+  + nama_barang : string
+  + kategori : string
+  + stok : int
+  ..
+  ' Function (Aksi/Method)
+  + tambah() : void
+  + update() : void
+  + hapus() : void
+  + cekStok() : int
+}
+
+class Peminjaman {
+  ' Atribut
+  + id_pinjam : int
+  + id_barang : int
+  + nama_peminjam : string
+  + jumlah : int
+  + tanggal_pinjam : date
+  + nama_ruangan : string
+  ..
+  ' Function
+  + simpan() : void
+  + validasiStok() : bool
+}
+
+class Maintenance {
+  ' Atribut
+  + id_mt : int
+  + id_barang : int
+  + tgl_maintenance : date
+  + keterangan : string
+  ..
+  ' Function
+  + simpan() : void
+  + update() : void
+  + hapus() : void
+}
+
+class PengecekanRutin {
+  ' Atribut
+  + id_cek : int
+  + id_barang : int
+  + tgl_cek : date
+  + kondisi : string
+  ..
+  ' Function
+  + simpan() : void
+  + hapus() : void
+}
+
+class Report {
+  ' Atribut
+  + tgl_generate : datetime
+  ..
+  ' Function
+  + requestData() : void
+  + previewReport() : void
+  + exportToExcel() : void
+}
+
+' --- Relasi ---
+Barang "1" -- "*" Peminjaman : dipinjam >
+Barang "1" -- "*" Maintenance : dirawat >
+Barang "1" -- "*" PengecekanRutin : dicek >
+Report ..> Barang : mengambil data >
+
+@enduml

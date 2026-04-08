@@ -1,0 +1,26 @@
+@startuml usecaseSimplified
+left to right direction
+actor Admin
+
+rectangle "Sistem Manajemen Inventaris" {
+  usecase "Kelola Data Barang (CRUD)" as UC2
+  usecase "Kelola Maintenance (CRUD)" as UC3
+  usecase "Proses Peminjaman Barang" as UC4
+  usecase "Cek Ketersediaan Stok" as UC5
+  usecase "Pengecekan Rutin (CRUD)" as UC6
+  usecase "Lihat Report Status" as UC7
+  usecase "Cetak Report ke Excel" as UC8
+}
+
+Admin -- UC2
+Admin -- UC3
+Admin -- UC4
+Admin -- UC6
+Admin -- UC7
+
+' Include: Pinjam WAJIB cek stok
+UC4 ..> UC5 : <<include>>
+
+' Extend: Lihat dulu, baru BISA cetak kalau mau
+UC7 <.. UC8 : <<extend>>
+@enduml

@@ -1,0 +1,23 @@
+@startuml activityPeminjamanBarang
+actor Admin
+participant "UI" as Frontend
+participant "BLL" as Backend
+participant "DAL" as Database
+Admin -> Frontend: Buka aplikasi
+Admin -> Frontend: Klik tombol report
+Frontend -> Backend: Request data report
+Backend -> Database: Ambil data report
+Database --> Backend: Kirim data report
+Backend --> Frontend: Kirim data report
+Frontend --> Admin: Tampilkan semua status barang
+alt admin ingin cetak report
+Admin -> Frontend: Klik tombol cetak report
+Frontend -> Backend: Request data report
+Backend -> Database: Ambil data report
+Database --> Backend: Data report
+Backend --> Backend: Format data report dengan template
+Backend --> Frontend: Kirim data report yang sudah diformat
+Frontend -> Frontend: Tampilkan preview report 
+Frontend -> Admin: kirim dalam format excel
+end
+@enduml
