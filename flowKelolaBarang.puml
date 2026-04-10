@@ -2,15 +2,13 @@
 start
 :Pilih menu Kelola Barang;
 repeat
-:Tampilkan daftar data barang;
+:Lihat daftar data barang;
 if (Lanjut?) then (Ya)
   if (Pilih Opsi?) then (Tambah)
     :Input data barang baru;
-    :Tampilkan konfirmasi berhasil;
   else (Hapus)
     :Pilih data barang;
     :Hapus data;
-    :Tampilkan konfirmasi hapus;
   endif
 else (Tidak)
   stop

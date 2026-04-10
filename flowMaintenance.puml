@@ -1,0 +1,13 @@
+@startuml flowMaintenance
+start
+:Pilih menu Maintenance;
+:Lihat data maintenance;
+
+if (input data?) then (Ya)
+  :Input/Pilih data maintenance;
+  :konfirmasi perubahan;
+else (Tidak)
+endif
+
+stop
+@enduml
