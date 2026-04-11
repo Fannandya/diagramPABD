@@ -1,0 +1,105 @@
+@startuml RAT_Inventaris
+skinparam classAttributeIconSize 0
+skinparam Style strictuml
+hide empty methods
+
+title RAT - Sistem Manajemen Inventaris (Schema Master & Transaction)
+
+package "Master Schema" <<Rectangle>> {
+  entity "Semester" as semester {
+    * **idSemester (PK)** : int
+    --
+    tahunAjaran : varchar(50)
+  }
+
+  entity "Karyawan" as karyawan {
+    * **idKaryawan (PK)** : int
+    --
+    namaKaryawan : varchar(100)
+  }
+
+  entity "Gedung" as gedung {
+    * **idGedung (PK)** : int
+    --
+    namaGedung : varchar(100)
+  }
+
+  entity "Ruangan" as ruangan {
+    * **idRuangan (PK)** : int
+    --
+    *idGedung (FK)* : int
+    namaRuangan : varchar(100)
+  }
+
+  entity "Barang" as barang {
+    * **idBarang (PK)** : int
+    --
+    namaBarang : varchar(100)
+    stok : int
+    tipeBarang : bit
+  }
+}
+
+package "Transaction Schema" <<Rectangle>> {
+  entity "Users" as users {
+    * **idUser (PK)** : int
+    --
+    email : varchar(50)
+    password : varchar(255)
+  }
+
+  entity "DetailBarang" as detailBarang {
+    * **idDetailBarang (PK)** : int
+    --
+    *idBarang (FK)* : int
+    *idRuangan (FK)* : int
+  }
+
+  entity "PermintaanBarang" as permintaan {
+    * **idPermintaanBarang (PK)** : int
+    --
+    *idBarang (FK)* : int
+    *idRuangan (FK)* : int
+    *idSemester (FK)* : int
+    namaPeminta : varchar(50)
+    jumlah : int
+    tglPermintaan : date
+  }
+
+  entity "Maintenance" as maintenance {
+    * **idMaintenance (PK)** : int
+    --
+    *idKaryawan (FK)* : int
+    *idDetailBarang (FK)* : int
+    *idSemester (FK)* : int
+    tglCek : date
+    kondisi : bit
+    kerusakan : varchar(100)
+    tindakLanjut : varchar(100)
+  }
+
+  entity "Report" as report {
+    * **idReport (PK)** : int
+    --
+    *idMaintenance (FK)* : int
+    *idPermintaanBarang (FK)* : int
+    *idSemester (FK)* : int
+    tglReport : date
+  }
+}
+
+' Relasi untuk menunjukkan alur Foreign Key
+gedung "1" -- "*" ruangan
+barang "1" -- "*" detailBarang
+ruangan "1" -- "*" detailBarang
+barang "1" -- "*" permintaan
+ruangan "1" -- "*" permintaan
+semester "1" -- "*" permintaan
+karyawan "1" -- "*" maintenance
+detailBarang "1" -- "*" maintenance
+semester "1" -- "*" maintenance
+maintenance "1" -- "*" report
+permintaan "1" -- "*" report
+semester "1" -- "*" report
+
+@enduml
