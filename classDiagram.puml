@@ -92,7 +92,7 @@ class Report {
 
 Barang "1" -- "*" DetailBarang : memiliki >
 Gedung "1" -- "*" Ruangan : memiliki >
-Ruangan "1" -- "0..*" DetailBarang : menyimpan >
+Ruangan "*0" -- "0..*" DetailBarang : menyimpan >
 
 DetailBarang "1" -- "*" Peminjaman : diminta >
 DetailBarang "1" -- "*" Maintenance : dirawat >

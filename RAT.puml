@@ -1,49 +1,15 @@
 @startuml RAT
-entity "user" {
-  *idUser : INT <<PK>>
-  --
-  username : VARCHAR(50) not null
-  password : VARCHAR(255) not null
-}
-entity "Barang" {
-  *idBarang : INT <<PK>>
-  --
-  namaBarang : VARCHAR(100)
-  spesifikasi : VARCHAR(50)
-  stok : INT not null
-  tipeBarang : VARCHAR(50) not null
-}
 
-entity "detailBarang" {
-  *idDetail : INT <<PK>>
+entity "semester" {
+  *idSemester : INT Identity <<PK>>
   --
-  idBarang : INT <<FK>>
-  idRuangan : INT <<FK>>
-}
-
-entity "Permintaan" {
-  *idPinjam : INT <<PK>>
-  --
-  idDetail : INT <<FK>>
-  namaPeminta : VARCHAR(100)
-  jumlah : INT
-  tglPinjam : DATE
+  tahunAjaran : VARCHAR(50) not null
 }
 
 entity "Keryawan" {
   *idKaryawan : INT <<PK>>
   --
   namaKaryawan : VARCHAR(100) not null
-}
-
-entity "Maintenance" {
-  *idCek : INT <<PK>>
-  --
-  idDetail : INT <<FK>>
-  idKaryawan : INT <<FK>>
-  tglCek : DATE
-  kondisi : BIT not null
-  tindakLanjut : VARCHAR(100)
 }
 
 entity "gedung" {
@@ -55,9 +21,66 @@ entity "gedung" {
 entity "ruangan" {
   *idRuangan : INT <<PK>>
   --
+  idGedung : INT <<FK>> not null
   namaRuangan : VARCHAR(100) not null
-  idGedung : INT <<FK>>
 }
+
+entity "Barang" {
+  *idBarang : INT <<PK>>
+  --
+  namaBarang : VARCHAR(100)
+  stok : INT not null
+  tipeBarang : VARCHAR(50) not null
+}
+
+entity "users" {
+  *idUser : INT <<PK>>
+  --
+  email : VARCHAR(50) unique 
+  password : VARCHAR(255) not null
+}
+
+entity "detailBarang" {
+  *idDetailBarang : INT <<PK>>
+  --
+  idBarang : INT <<FK>>
+  idRuangan : INT <<FK>>
+}
+
+entity "PermintaanBarang" {
+  *idPermintaanBarang : INT <<PK>>
+  --
+  idBarang : INT <<FK>> not null
+  idRuangan : INT <<FK>> not null
+  namaPeminta : VARCHAR(100)
+  jumlah : INT not null check (jumlah > 0)
+  tglPermintaan: DATE default
+  idSemester : INT <<FK>> not null
+}
+
+
+entity "Maintenance" {
+  *idMaintenance : INT <<PK>>
+  --
+  idKaryawan : INT <<FK>> not null
+  idDetailBarang : INT <<FK>> not null
+  tglCek : DATE DEFAULT
+  kondisi : BIT not null
+  kerusakan : VARCHAR(100)
+  tindakLanjut : VARCHAR(100)
+  idSemester : INT <<FK>> not null
+}
+
+entity "Report" {
+  *idReport : INT <<PK>> identity
+  --
+  idMaintenance : INT <<FK>> not null
+  idPermintaanBarang : INT <<FK>> not null
+  idSemester : INT <<FK>> not null 
+  tglReport : DATE
+}
+
+
 
 ' Setiap detail barang wajib punya 1 Barang
 Barang ||--o{ detailBarang : "memiliki"
@@ -69,10 +92,14 @@ gedung ||--o{ ruangan : "memiliki"
 ruangan }o--o{ detailBarang : "menyimpan"
 
 ' 1 unit bisa berkali-kali dipinjam/dirawat)
-detailBarang ||--o{ Permintaan : "diminta"
+detailBarang ||--o{ PermintaanBarang : "diminta"
 detailBarang ||--o{ Maintenance : "dirawat"
 
 ' minimal 1 karyawan untuk bisa melakukan maintenance
 Keryawan ||--o{ Maintenance : "melakukan"
+
+
+semester ||--o{ PermintaanBarang : "berlaku untuk"
+semester ||--o{ Maintenance : "berlaku untuk"
 
 @enduml
