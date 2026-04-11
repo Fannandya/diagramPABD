@@ -1,21 +1,17 @@
 @startuml activityPeminjamanBarang
 |Admin|
 start
+:Membuka aplikasi;
+|Sistem|
+:Tampilkan halaman login;
+|Admin|
+:Login dengan username dan password;
+|Sistem|
+:Validasi login & tampilkan halaman utama;
+|Admin|
 :Pilih menu Peminjaman Barang;
 
-|UI|
-:Request data ke BLL;
-
-|BLL|
-:Ambil data barang ke DAL;
-
-|DAL|
-:Kirim data ke BLL;
-
-|BLL|
-:Kirim data ke UI;
-
-|UI|
+|Sistem|
 :Tampilkan daftar barang untuk dipinjam;
 
 |Admin|
@@ -24,18 +20,8 @@ if (Jadi pinjam?) then (Ya)
     |Admin|
     :Input form peminjaman;
     :Klik Konfirmasi;
-
-    |UI|
-    :Kirim data ke BLL;
-
-    |BLL|
-    :Validasi input (tidak kosong);
-
-    |DAL|
-    :Simpan data peminjaman ke Database;
-
-    |UI|
-    :Tampilkan Konfirmasi Berhasil;
+    |Sistem|
+    :Simpan data & Tampilkan Konfirmasi Berhasil;
 
     |Admin|
   repeat while (Pinjam lagi?) is (Ya)
