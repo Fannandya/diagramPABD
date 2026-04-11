@@ -2,103 +2,115 @@
 skinparam classAttributeIconSize 0
 skinparam Style strictuml
 
-' --- Master Data ---
+' --- Master Layer ---
 
-class User {
-  + id_user : int
-  + username : string
-  - password : string
-  ..
-  + login() : bool
-  + logout() : void
-}
-
-class Barang {
-  + id_barang : int
-  + nama_barang : string
-  + tipe_barang : string
-  + stok : int
+class Semester {
+  + idSemester : int
+  + tahunAjaran : string
   ..
   + tambah() : void
-  + update() : void
-  + hapus() : void
+}
+
+class Karyawan {
+  + idKaryawan : int
+  + namaKaryawan : string
+  ..
+  + getKaryawan() : list
 }
 
 class Gedung {
-  + id_gedung : int
-  + nama_gedung : string
+  + idGedung : int
+  + namaGedung : string
   ..
   + tambahGedung() : void
 }
 
 class Ruangan {
-  + id_ruangan : int
-  + id_gedung : int
-  + nama_ruangan : string
+  + idRuangan : int
+  + idGedung : int
+  + namaRuangan : string
   ..
-  + getRuanganByGedung() : list
+  + getRuangan() : list
 }
 
-class Karyawan {
-  + id_karyawan : int
-  + nama_karyawan : string
-  + jabatan : string
+class Barang {
+  + idBarang : int
+  + namaBarang : string
+  + stok : int
+  + tipeBarang : bool
   ..
-  + getKaryawan() : list
+  + cekStok() : int
 }
 
-' --- Transactional / Detail ---
+' --- Transaction Layer ---
+
+class Users {
+  + idUser : int
+  + email : string
+  - password : string
+  ..
+  + login() : bool
+}
 
 class DetailBarang {
-  + id_detail : int
-  + id_barang : int
-  + id_ruangan : int
+  + idDetailBarang : int
+  + idBarang : int
+  + idRuangan : int
   ..
-  + updateLokasi() : void
-  + getDetailByBarang() : list
+  + getDetail() : list
 }
 
-class Peminjaman {
-  + id_pinjam : int
-  + id_detail : int
-  + nama_peminjam : string
+class PermintaanBarang {
+  + idPermintaanBarang : int
+  + idBarang : int
+  + idRuangan : int
+  + idSemester : int
+  + namaPeminta : string
   + jumlah : int
-  + tgl_pinjam : date
+  + tglPermintaan : date
   ..
   + simpan() : void
-  + cetakBukti() : void
 }
 
 class Maintenance {
-  + id_mt : int
-  + id_detail : int
-  + id_karyawan : int
-  + tgl_mt : date
-  + kondisi : string
-  + tindak_lanjut : string
+  + idMaintenance : int
+  + idKaryawan : int
+  + idDetailBarang : int
+  + idSemester : int
+  + tglCek : date
+  + kondisi : bool
+  + kerusakan : string
+  + tindakLanjut : string
   ..
   + simpan() : void
-  + updateStatus() : void
 }
 
 class Report {
-  + tgl_generate : datetime
+  + idReport : int
+  + idMaintenance : int
+  + idPermintaanBarang : int
+  + idSemester : int
+  + tglReport : date
   ..
-  + requestData() : void
-  + exportToExcel() : void
+  + generateExcel() : void
 }
 
-' --- Relasi Sesuai Kardinalitas RAT ---
+' --- Relasi Sesuai SQL ---
 
-Barang "1" -- "*" DetailBarang : memiliki >
 Gedung "1" -- "*" Ruangan : memiliki >
-Ruangan "*0" -- "0..*" DetailBarang : menyimpan >
+Ruangan "1" -- "*" DetailBarang : menyimpan >
+Barang "1" -- "*" DetailBarang : memiliki >
 
-DetailBarang "1" -- "*" Peminjaman : diminta >
+Barang "1" -- "*" PermintaanBarang : diminta >
+Ruangan "1" -- "*" PermintaanBarang : lokasi >
+Semester "1" -- "*" PermintaanBarang : periode >
+
+Karyawan "1" -- "*" Maintenance : mengecek >
 DetailBarang "1" -- "*" Maintenance : dirawat >
-Karyawan "1" -- "*" Maintenance : melakukan >
+Semester "1" -- "*" Maintenance : periode >
 
-Report ..> DetailBarang : mengambil data >
-Report ..> Peminjaman : mengambil data >
+Maintenance "1" -- "*" Report : data >
+PermintaanBarang "1" -- "*" Report : data >
+Semester "1" -- "*" Report : periode >
 
 @enduml
