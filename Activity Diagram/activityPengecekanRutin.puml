@@ -1,30 +1,38 @@
 @startuml activityPengecekanRutin
 |Admin|
 start
+:Membuka aplikasi;
 
-repeat
-  |Admin|
-  :Isi form pengecekan;
-  :Klik Simpan;
+|Sistem|
+:Tampilkan halaman login;
 
-  |UI|
-  :Kirim data ke BLL;
+|Admin|
+:Login dengan username dan password;
 
-  |BLL|
-  :Kirim data ke DAL;
+|Sistem|
+:Validasi login & tampilkan halaman utama;
 
-  |DAL|
-  :Simpan data ke database;
+|Admin|
+:Pilih menu Pengecekan Rutin;
 
-  |BLL|
-  :Kirim konfirmasi ke UI;
+|Sistem|
+:Tampilkan halaman Pengecekan Rutin;
 
-  |UI|
-  :Tampilkan pesan sukses;
-
-  |Admin|
-repeat while (Lanjut isi form?) is (Ya)
-->Tidak;
+|Admin|
+if (Ingin isi form pengecekan?) then (Ya)
+  repeat
+    |Admin|
+    :Isi form pengecekan;
+    :Klik Simpan;
+    |Sistem|
+    :Proses simpan & tampilkan konfirmasi;
+    |Admin|
+  repeat while (Lanjut isi form?) is (Ya)
+  ->Tidak;
+  :Kembali ke halaman Pengecekan Rutin;
+else (Tidak)
+  :Kembali ke halaman pengecekan rutin;
+endif
 
 stop
 @enduml

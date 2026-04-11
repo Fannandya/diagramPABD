@@ -1,0 +1,91 @@
+@startuml ERD
+entity "Barang" {
+  *idBarang : INT <<PK>>
+  --
+  namaBarang : VARCHAR(100)
+  stok : INT not null
+  tipeBarang : VARCHAR(50) not null
+  ruangan : VARCHAR(10) null
+}
+
+entity "Peminjaman" {
+  *idPinjam : INT <<PK>>
+  --
+  idBarang : INT <<FK>>
+  namaBarang : reference Barang(namaBarang)
+  namaPeminjam : VARCHAR(100)
+  jumlah : INT
+  tglPinjam : DATE
+  namaRuangan : VARCHAR(100)
+}
+
+entity "Keryawan" {
+  *idKaryawan : INT <<PK>>
+  --
+  namaKaryawan : VARCHAR(100) not null
+  jabatan : VARCHAR(50) not null
+
+}
+
+entity "Maintenance" {
+  *idCek : INT <<PK>>
+  --
+  idBarang : INT <<FK>>
+  namaBarang : reference Barang(namaBarang) not null
+  idKaryawan : INT <<FK>>
+  namaKaryawan : reference Keryawan(namaKaryawan) not null
+  tglCek : DATE
+  kondisi : VARCHAR(50)
+  tindakLanjut : VARCHAR(100)
+}
+
+entity "gedung" {
+  *idGedung : INT <<PK>>
+  --
+  namaGedung : VARCHAR(100) not null
+}
+
+entity "ruangan" {
+  *idRuangan : INT <<PK>>
+  --
+  namaRuangan : VARCHAR(100) not null
+  idGedung : INT <<FK>>
+  namaGedung : reference gedung(namaGedung) not null
+}
+
+entity "user" {
+  *idUser : INT <<PK>>
+  --
+  username : VARCHAR(50) not null
+  password : VARCHAR(255) not null
+}
+
+entity "report" {
+  *idReport : INT <<PK>>
+  --
+  idBarang : INT <<FK>>
+  namaBarang : reference Barang(namaBarang) not null
+  jumlahPinjam : INT
+  jumlahMaintenance : INT
+}
+
+entity "detailBarang" {
+  *idDetail : INT <<PK>>
+  --
+  idBarang : INT <<FK>>
+  namaBarang : reference Barang(namaBarang) not null
+  spesifikasi : VARCHAR(255)
+  gedung : VARCHAR(100) not null
+  ruangan : VARCHAR(100) not null
+}
+
+
+Barang }o--o{ Keryawan : "cek"
+Barang |o--o| Peminjaman
+Barang }o--o{ Maintenance
+detailBarang |o--o{ ruangan
+gedung }|--|| ruangan
+Peminjaman }o--o{ report
+Maintenance }o--o{ report
+detailBarang }o--o| Barang : "memiliki"
+@enduml
