@@ -1,38 +1,39 @@
 @startuml activityKelolaBarang
 |Admin|
 start
-:Pilih menu Kelola Barang;
+:Membuka aplikasi;
 
-|UI|
-:Request data barang ke BLL;
-
-|BLL|
-:ambil data dari DAL;
-
-|DAL|
-:Kirim data ke BLL;
-
-|BLL|
-:Kirim data ke UI;
-
-|UI|
-:Tampilkan daftar barang;
+|Sistem|
+:Tampilkan halaman login;
 
 |Admin|
-if (Tambah Barang?) then (Ya)
-  :Input data barang;
-  :Klik Simpan;
-  |UI|
-  :Kirim data ke BLL;
-  |BLL|
-  :Validasi input (tidak kosong);
-  |DAL|
-  :Simpan ke Database;
-  |BLL|
-  :Kirim konfirmasi ke UI;
-  |UI|
-  :Tampilkan Konfirmasi Berhasil;
+:Login dengan username dan password;
+
+|Sistem|
+:Validasi login;
+
+|Admin|
+:Pilih menu Kelola Barang;
+
+|Sistem|
+:Tampilkan halaman Kelola Barang;
+
+|Admin|
+if (Ingin Tambah Barang?) then (Ya)
+  |Sistem|
+  repeat
+    :Tampilkan form tambah barang;
+    |Admin|
+    :Input data barang;
+    :Klik Simpan;
+    |Sistem|
+    :Proses simpan & tampilkan konfirmasi;
+    |Admin|
+  repeat while (Tambah barang lagi?) is (Ya)
+  ->Tidak;
+  :Kembali ke halaman Kelola Barang;
 else (Tidak)
 endif
+
 stop
 @enduml
