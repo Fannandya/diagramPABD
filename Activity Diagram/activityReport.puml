@@ -1,36 +1,27 @@
 @startuml activityReport
 |Admin|
 start
+:Membuka aplikasi;
+|Sistem|
+:Tampilkan halaman login;
+|Admin|
+:Login dengan username dan password;
+|Sistem|
+:Validasi login & tampilkan halaman utama;
+|Admin|
 :Klik tombol Report;
-
-|UI|
-:Request data report ke BLL;
-
-|BLL|
-:Ambil data report ke DAL;
-
-|DAL|
-:Kirim data report ke BLL;
-
-|BLL|
-:Kirim data report ke UI;
-
-|UI|
-:Tampilkan preview report di tabel;
+|Sistem|
+:Tampilkan halaman Report;
 
 |Admin|
 if (Ingin cetak ke Excel?) then (Ya)
-  |UI|
-  :Kirim request export ke BLL;
-  |BLL|
-  :Proses data ke format Excel;
-  |UI|
+  |Sistem|
   :Tampilkan file Excel;
   |Admin|
   :Download dan Simpan file ke komputer;
 else (Tidak/Hanya Lihat)
   |Admin|
-  :Selesai melihat tabel;
+  :Kembali ke halaman report;
 endif
 
 stop
