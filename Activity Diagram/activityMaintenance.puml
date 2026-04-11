@@ -1,40 +1,39 @@
 @startuml activityMaintenance
 |Admin| 
 start
-:Pilih menu Maintenance;
+:Membuka aplikasi;
 
-|UI|
-:Request data ke BLL;
-
-|BLL|
-:Ambil data ke DAL;
-
-|DAL|
-:Kirim data ke BLL;
-
-|BLL|
-:Kirim data ke UI;
-
-|UI|
-:Tampilkan data maintenance;
+|Sistem|
+:Tampilkan halaman login;
 
 |Admin|
-if (CRUD Maintenance?) then (Ya)
-  |UI|
-  :tampilkan form input data maintenance;
-  |Admin|
-  :Input data maintenance;
-  :Klik Simpan;
-  |UI|
-  :Kirim data ke BLL;
-  |BLL|
-  :Validasi input (tidak kosong);
-  |DAL|
-  :Simpan ke Database;
-  |BLL|
-  :Kirim konfirmasi ke UI;
-  |UI|
-  :Tampilkan Konfirmasi Berhasil;
+:Login dengan username dan password;
+
+|Sistem|
+:Validasi login;
+:Menampilkan halaman utama;
+
+|Admin|
+:Memilih menu Maintenance;
+
+|Sistem|
+:Menampilkan halaman Maintenance;
+
+|Admin|
+if (input maintenance) then (Ya)
+  |Sistem|
+  repeat
+    :Tampilkan form tambah barang;
+    |Admin|
+    :Input data;
+    :Klik Simpan;
+    |Sistem|
+    :Proses simpan & tampilkan konfirmasi;
+    :kembali ke halaman Maintenance;
+    |Admin|
+  repeat while (Tambah barang lagi?) is (Ya)
+  ->Tidak;
+  :Kembali ke halaman Kelola Barang;
 else (Tidak)
 endif
 stop
