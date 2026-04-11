@@ -1,0 +1,136 @@
+@startuml satprasDB_ERD
+
+' Konfigurasi Visual Profesional
+!theme plain
+hide circle
+skinparam linetype ortho
+skinparam roundcorner 5
+skinparam class {
+    BackgroundColor White
+    ArrowColor #2C3E50
+    BorderColor #34495E
+}
+
+' Definisi Macro untuk Icon PK dan FK
+!define PK(x) <b><color:#D35400><&key></color> x</b>
+!define FK(x) <i><color:#2980B9><&link-intact></color> x</i>
+
+title Blueprint Arsitektur Database: satprasDB\n(Master-Transaction Isolation)
+
+' ==========================================
+' SKEMA MASTER (Fondasi Data)
+' ==========================================
+package "Schema: [master]" <<Rectangle>> {
+    
+    entity "gedung" as m_gedung {
+        PK(idGedung) : INT
+        --
+        namaGedung : VARCHAR(100)
+    }
+
+    entity "ruangan" as m_ruangan {
+        PK(idRuangan) : INT
+        --
+        FK(idGedung) : INT
+        namaRuangan : VARCHAR(100)
+    }
+
+    entity "barang" as m_barang {
+        PK(idBarang) : INT
+        --
+        namaBarang : VARCHAR(100)
+        stok : INT
+        tipeBarang : BIT
+    }
+
+    entity "karyawan" as m_karyawan {
+        PK(idKaryawan) : INT
+        --
+        namaKaryawan : VARCHAR(100)
+    }
+
+    entity "semester" as m_semester {
+        PK(idSemester) : INT
+        --
+        tahunAjaran : VARCHAR(50)
+    }
+}
+
+' ==========================================
+' SKEMA TRANSACTION (Data Dinamis)
+' ==========================================
+package "Schema: [transaction]" <<Rectangle>> {
+
+    entity "users" as t_users {
+        PK(idUser) : INT
+        --
+        email : VARCHAR(50)
+        password : VARCHAR(255)
+    }
+
+    entity "detailBarang" as t_detailBarang {
+        PK(idDetailBarang) : INT
+        --
+        FK(idBarang) : INT
+        FK(idRuangan) : INT
+    }
+
+    entity "permintaanBarang" as t_permintaan {
+        PK(idPermintaanBarang) : INT
+        --
+        FK(idBarang) : INT
+        FK(idRuangan) : INT
+        FK(idSemester) : INT
+        namaPeminta : VARCHAR(50)
+        jumlah : INT
+        tglPermintaan : DATE
+    }
+
+    entity "maintenance" as t_maintenance {
+        PK(idMaintenance) : INT
+        --
+        FK(idKaryawan) : INT
+        FK(idDetailBarang) : INT
+        FK(idSemester) : INT
+        tglCek : DATE
+        kondisi : BIT
+        kerusakan : VARCHAR(100)
+        tindakLanjut : VARCHAR(100)
+    }
+
+    entity "report" as t_report {
+        PK(idReport) : INT
+        --
+        FK(idMaintenance) : INT
+        FK(idPermintaanBarang) : INT
+        FK(idSemester) : INT
+        tglReport : DATE
+    }
+}
+
+' ==========================================
+' RELASI ANTAR TABEL (Foreign Keys)
+' ==========================================
+
+' Relasi Internal Master
+m_gedung "1" -- "0..*" m_ruangan
+
+' Relasi Master ke Transaction
+m_barang "1" -- "0..*" t_detailBarang
+m_ruangan "1" -- "0..*" t_detailBarang
+
+m_barang "1" -- "0..*" t_permintaan
+m_ruangan "1" -- "0..*" t_permintaan
+m_semester "1" -- "0..*" t_permintaan
+
+m_karyawan "1" -- "0..*" t_maintenance
+m_semester "1" -- "0..*" t_maintenance
+
+m_semester "1" -- "0..*" t_report
+
+' Relasi Internal Transaction
+t_detailBarang "1" -- "0..*" t_maintenance
+t_maintenance "1" -- "0..*" t_report
+t_permintaan "1" -- "0..*" t_report
+
+@enduml
