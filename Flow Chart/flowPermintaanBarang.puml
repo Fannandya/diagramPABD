@@ -1,0 +1,13 @@
+@startuml flowPermintaanBarang
+start
+:Pilih menu Peminjaman;
+:Cek ketersediaan barang;
+
+if (jadi pinjam?) then (Jadi)
+  :Input data permintaan;
+  :Konfirmasi permintaan Berhasil;
+else (Tidak)
+endif
+
+stop
+@enduml
