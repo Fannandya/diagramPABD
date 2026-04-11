@@ -2,75 +2,103 @@
 skinparam classAttributeIconSize 0
 skinparam Style strictuml
 
-' --- Entities / Models ---
+' --- Master Data ---
+
+class User {
+  + id_user : int
+  + username : string
+  - password : string
+  ..
+  + login() : bool
+  + logout() : void
+}
 
 class Barang {
-  ' Atribut (Ciri-ciri/Data)
   + id_barang : int
   + nama_barang : string
-  + kategori : string
+  + tipe_barang : string
   + stok : int
   ..
-  ' Function (Aksi/Method)
   + tambah() : void
   + update() : void
   + hapus() : void
-  + cekStok() : int
+}
+
+class Gedung {
+  + id_gedung : int
+  + nama_gedung : string
+  ..
+  + tambahGedung() : void
+}
+
+class Ruangan {
+  + id_ruangan : int
+  + id_gedung : int
+  + nama_ruangan : string
+  ..
+  + getRuanganByGedung() : list
+}
+
+class Karyawan {
+  + id_karyawan : int
+  + nama_karyawan : string
+  + jabatan : string
+  ..
+  + getKaryawan() : list
+}
+
+' --- Transactional / Detail ---
+
+class DetailBarang {
+  + id_detail : int
+  + id_barang : int
+  + id_ruangan : int
+  ..
+  + updateLokasi() : void
+  + getDetailByBarang() : list
 }
 
 class Peminjaman {
-  ' Atribut
   + id_pinjam : int
-  + id_barang : int
+  + id_detail : int
   + nama_peminjam : string
   + jumlah : int
-  + tanggal_pinjam : date
-  + nama_ruangan : string
+  + tgl_pinjam : date
   ..
-  ' Function
   + simpan() : void
-  + validasiStok() : bool
+  + cetakBukti() : void
 }
 
 class Maintenance {
-  ' Atribut
   + id_mt : int
-  + id_barang : int
-  + tgl_maintenance : date
-  + keterangan : string
-  ..
-  ' Function
-  + simpan() : void
-  + update() : void
-  + hapus() : void
-}
-
-class PengecekanRutin {
-  ' Atribut
-  + id_cek : int
-  + id_barang : int
-  + tgl_cek : date
+  + id_detail : int
+  + id_karyawan : int
+  + tgl_mt : date
   + kondisi : string
+  + tindak_lanjut : string
   ..
-  ' Function
   + simpan() : void
-  + hapus() : void
+  + updateStatus() : void
 }
 
 class Report {
-  ' Atribut
   + tgl_generate : datetime
   ..
-  ' Function
   + requestData() : void
-  + previewReport() : void
   + exportToExcel() : void
 }
 
-' --- Relasi ---
-Barang "1" -- "*" Peminjaman : dipinjam >
-Barang "1" -- "*" Maintenance : dirawat >
-Barang "1" -- "*" PengecekanRutin : dicek >
-Report ..> Barang : mengambil data >
+' --- Relasi Sesuai Kardinalitas RAT ---
+
+Barang "1" -- "*" DetailBarang : memiliki >
+Gedung "1" -- "*" Ruangan : memiliki >
+Ruangan "1" -- "0..*" DetailBarang : menyimpan >
+
+DetailBarang "1" -- "*" Peminjaman : diminta >
+DetailBarang "1" -- "*" Maintenance : dirawat >
+Karyawan "1" -- "*" Maintenance : melakukan >
+
+Report ..> DetailBarang : mengambil data >
+Report ..> Peminjaman : mengambil data >
 
 @enduml
