@@ -9,8 +9,7 @@ start
 |Sistem|
 :Validasi login & tampilkan halaman utama;
 |Admin|
-:Pilih menu Peminjaman Barang;
-
+:Pilih menu Permintaan Barang;
 |Sistem|
 :Tampilkan daftar barang untuk dipinjam;
 
@@ -18,7 +17,7 @@ start
 if (Jadi pinjam?) then (Ya)
   repeat
     |Admin|
-    :Input form peminjaman;
+    :Input form Permintaan Barang;
     :Klik Konfirmasi;
     |Sistem|
     :Simpan data & Tampilkan Konfirmasi Berhasil;
