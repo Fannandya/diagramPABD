@@ -4,59 +4,61 @@ skinparam Style strictuml
 
 ' --- Master Layer ---
 
+class Users {
+  + idUser : int
+  ..
+  + email : varchar(50)
+  - password : varchar(255)
+  + login() : bool
+}
+
 class Semester {
   + idSemester : int
-  + tahunAjaran : string
   ..
+  + tahunAjaran : varchar(50)
   + tambah() : void
 }
 
 class Karyawan {
   + idKaryawan : int
-  + namaKaryawan : string
   ..
+  + namaKaryawan : string
   + getKaryawan() : list
 }
 
 class Gedung {
   + idGedung : int
-  + namaGedung : string
   ..
+  + namaGedung : varchar(50)
   + tambahGedung() : void
 }
 
 class Ruangan {
   + idRuangan : int
   + idGedung : int
-  + namaRuangan : string
   ..
+  + namaRuangan : varchar(50)
   + getRuangan() : list
 }
 
 class Barang {
   + idBarang : int
-  + namaBarang : string
   + stok : int
-  + tipeBarang : bool
+  + tipeBarang : bit
+  + idMerk : int
   ..
+  + namaBarang : varchar(100)
   + cekStok() : int
 }
 
 ' --- Transaction Layer ---
-
-class Users {
-  + idUser : int
-  + email : string
-  - password : string
-  ..
-  + login() : bool
-}
 
 class DetailBarang {
   + idDetailBarang : int
   + idBarang : int
   + idRuangan : int
   ..
+  + spesifikasi : varchar(500)
   + getDetail() : list
 }
 
@@ -64,11 +66,11 @@ class PermintaanBarang {
   + idPermintaanBarang : int
   + idBarang : int
   + idRuangan : int
-  + idSemester : int
-  + namaPeminta : string
   + jumlah : int
   + tglPermintaan : date
+  + idSemester : int
   ..
+  + namaPeminta : string
   + simpan() : void
 }
 
@@ -76,29 +78,27 @@ class Maintenance {
   + idMaintenance : int
   + idKaryawan : int
   + idDetailBarang : int
-  + idSemester : int
   + tglCek : date
-  + kondisi : bool
-  + kerusakan : string
-  + tindakLanjut : string
+  + kondisi : bit
+  + idSemester : int
   ..
+  + kerusakan : varchar(100)
+  + tindakLanjut : varchar(100)
   + simpan() : void
 }
 
-class Report {
-  + idReport : int
-  + idMaintenance : int
-  + idPermintaanBarang : int
-  + idSemester : int
-  + tglReport : date
+class Merk {
+  + idMerk : int
   ..
-  + generateExcel() : void
+  + namaMerk : varchar(50)
+  + tambahMerk() : void
 }
+
 
 ' --- Relasi Sesuai SQL ---
 
 Gedung "1" -- "*" Ruangan : memiliki >
-Ruangan "1" -- "*" DetailBarang : menyimpan >
+Ruangan "1" -- "*" DetailBarang : lokasi >
 Barang "1" -- "*" DetailBarang : memiliki >
 
 Barang "1" -- "*" PermintaanBarang : diminta >
@@ -109,8 +109,6 @@ Karyawan "1" -- "*" Maintenance : mengecek >
 DetailBarang "1" -- "*" Maintenance : dirawat >
 Semester "1" -- "*" Maintenance : periode >
 
-Maintenance "1" -- "*" Report : data >
-PermintaanBarang "1" -- "*" Report : data >
-Semester "1" -- "*" Report : periode >
+Merk "1" -- "*" Barang : klasifikasi >
 
 @enduml

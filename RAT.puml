@@ -45,6 +45,7 @@ entity "detailBarang" {
   --
   idBarang : INT <<FK>>
   idRuangan : INT <<FK>>
+  spesifikasi : VARCHAR(500) null
 }
 
 entity "PermintaanBarang" {
@@ -70,17 +71,6 @@ entity "Maintenance" {
   tindakLanjut : VARCHAR(100)
   idSemester : INT <<FK>> not null
 }
-
-entity "Report" {
-  *idReport : INT <<PK>> identity
-  --
-  idMaintenance : INT <<FK>> not null
-  idPermintaanBarang : INT <<FK>> not null
-  idSemester : INT <<FK>> not null 
-  tglReport : DATE
-}
-
-
 
 ' Setiap detail barang wajib punya 1 Barang
 Barang ||--o{ detailBarang : "memiliki"
