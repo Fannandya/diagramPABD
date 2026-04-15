@@ -123,6 +123,8 @@ CREATE TABLE [transaction].report(
 );
 GO
 
+drop table [transaction].report
+
 
 -- =========================================================================
 -- FASE 4: BUSINESS LOGIC VALIDATION (TRIGGERS)
