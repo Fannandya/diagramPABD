@@ -35,8 +35,13 @@ if (Tambah Pengecekan Baru?) then (Ya)
     
     |Sistem|
     :Validasi Input;
-    :Simpan Data ke satprasDB;
-    :Tampilkan Notifikasi Sukses;
+    if (Input Valid?) then (Ya)
+      :Simpan data permintaan ke DB;
+      :Tampilkan notifikasi sukses;
+    else (Tidak)
+      :fail safe;
+      :Tampilkan pesan error;
+    endif
     
     |Admin|
   repeat while (Input Barang Lain?) is (Ya)
