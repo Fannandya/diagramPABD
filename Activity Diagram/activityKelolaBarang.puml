@@ -10,8 +10,14 @@ start
 :Login dengan username dan password;
 
 |Sistem|
-:Validasi login;
-:Menampilkan halaman utama;
+:Validasi Akun;
+if (Login Berhasil?) then (Ya)
+  :Tampilkan Halaman Utama;
+else (Tidak)
+  :Tampilkan Pesan Error;
+  :Kembali ke Halaman Login;
+  detach
+endif
 
 |Admin|
 :Pilih menu Kelola Barang;
