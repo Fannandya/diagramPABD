@@ -1,38 +1,51 @@
 @startuml activityPengecekanRutin
+
 |Admin|
 start
-:Membuka aplikasi;
+:Membuka Aplikasi;
 
 |Sistem|
-:Tampilkan halaman login;
+:Tampilkan Halaman Login;
 
 |Admin|
-:Login dengan username dan password;
+:Input Email & Password;
 
 |Sistem|
-:Validasi login & tampilkan halaman utama;
-
-|Admin|
-:Pilih menu Pengecekan Rutin;
-
-|Sistem|
-:Tampilkan halaman Pengecekan Rutin;
-
-|Admin|
-if (Ingin isi form pengecekan?) then (Ya)
-  repeat
-    |Admin|
-    :Isi form pengecekan;
-    :Klik Simpan;
-    |Sistem|
-    :Proses simpan & tampilkan konfirmasi;
-    |Admin|
-  repeat while (Lanjut isi form?) is (Ya)
-  ->Tidak;
-  :Kembali ke halaman Pengecekan Rutin;
+:Validasi Akun;
+if (Login Berhasil?) then (Ya)
+  :Tampilkan Halaman Utama;
 else (Tidak)
-  :Kembali ke halaman pengecekan rutin;
+  :Tampilkan Pesan Error;
+  :Kembali ke Halaman Login;
+  detach
 endif
 
+|Admin|
+:Pilih Menu Pengecekan Rutin;
+
+|Sistem|
+:Tampilkan Daftar Pengecekan & Form;
+
+|Admin|
+if (Tambah Pengecekan Baru?) then (Ya)
+  repeat
+    |Admin|
+    :Isi Detail Kondisi Barang;
+    :Klik Tombol Simpan;
+    
+    |Sistem|
+    :Validasi Input;
+    :Simpan Data ke satprasDB;
+    :Tampilkan Notifikasi Sukses;
+    
+    |Admin|
+  repeat while (Input Barang Lain?) is (Ya)
+  ->Tidak;
+else (Hanya Lihat Data)
+endif
+
+|Admin|
+:Kembali ke Halaman Utama;
 stop
+
 @enduml
