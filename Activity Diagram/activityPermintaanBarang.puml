@@ -7,7 +7,14 @@ start
 |Admin|
 :Login dengan username dan password;
 |Sistem|
-:Validasi login & tampilkan halaman utama;
+:Validasi Akun;
+if (Login Berhasil?) then (Ya)
+  :Tampilkan Halaman Utama;
+else (Tidak)
+  :Tampilkan Pesan Error;
+  :Kembali ke Halaman Login;
+  detach
+endif
 |Admin|
 :Pilih menu Permintaan Barang;
 |Sistem|
@@ -20,7 +27,15 @@ if (Jadi pinjam?) then (Ya)
     :Input form Permintaan Barang;
     :Klik Konfirmasi;
     |Sistem|
-    :Simpan data & Tampilkan Konfirmasi Berhasil;
+    :validasi input;
+    if (Input Valid?) then (Ya)
+      :Simpan data permintaan ke satprasDB;
+      :Tampilkan notifikasi sukses;
+    else (Tidak)
+      :Tampilkan pesan error;
+      :fail safe;
+    endif
+
 
     |Admin|
   repeat while (Pinjam lagi?) is (Ya)
