@@ -32,8 +32,8 @@ if (Jadi pinjam?) then (Ya)
       :Simpan data permintaan ke satprasDB;
       :Tampilkan notifikasi sukses;
     else (Tidak)
-      :Tampilkan pesan error;
       :fail safe;
+      :Tampilkan pesan error;
     endif
 
 
