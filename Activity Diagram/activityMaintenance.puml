@@ -35,9 +35,13 @@ if (Input Data Maintenance Baru?) then (Ya)
     
     |Sistem|
     :Validasi Input Data;
-    :Simpan Log Maintenance ke satprasDB;
-    :Tampilkan Notifikasi Berhasil;
-    :Refresh Daftar Maintenance;
+    if (Input Valid?) then (Ya)
+      :Simpan data permintaan ke satprasDB;
+      :Tampilkan notifikasi sukses;
+    else (Tidak)
+      :fail safe;
+      :Tampilkan pesan error;
+    endif
     
     |Admin|
   repeat while (Tambah Data Lagi?) is (Ya)
