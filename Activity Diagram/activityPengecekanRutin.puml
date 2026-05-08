@@ -4,6 +4,8 @@
 start
 :Membuka Aplikasi;
 
+repeat
+
 |Sistem|
 :Tampilkan Halaman Login;
 
@@ -12,13 +14,8 @@ start
 
 |Sistem|
 :Validasi Akun;
-if (Login Berhasil?) then (Ya)
-  :Tampilkan Halaman Utama;
-else (Tidak)
-  :Tampilkan Pesan Error;
-  :Kembali ke Halaman Login;
-  detach
-endif
+
+repeat while (Login Gagal?) is (Ya)
 
 |Admin|
 :Pilih Menu Pengecekan Rutin;
