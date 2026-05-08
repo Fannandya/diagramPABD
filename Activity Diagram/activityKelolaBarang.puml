@@ -14,9 +14,7 @@ repeat
 
   |Sistem|
   :Validasi Akun;
-
-
-
+  
 repeat while (Login gagal?) is (Ya)
 
 |Admin|

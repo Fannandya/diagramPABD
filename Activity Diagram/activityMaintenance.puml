@@ -1,24 +1,23 @@
 @startuml activityMaintenance
 
+title Activity Diagram Maintenance
+
 |Admin|
 start
 :Membuka Aplikasi;
 
-|Sistem|
-:Tampilkan Halaman Login;
+repeat
 
-|Admin|
-:Input Username & Password;
+    |Sistem|
+    :Tampilkan Halaman Login;
 
-|Sistem|
-:Validasi Akun;
-if (Login Berhasil?) then (Ya)
-  :Tampilkan Halaman Utama;
-else (Tidak)
-  :Tampilkan Pesan Error;
-  :Kembali ke Halaman Login;
-  detach
-endif
+    |Admin|
+    :Input Username & Password;
+
+    |Sistem|
+    :Validasi Akun;
+
+repeat while (Login Gagal?) is (Ya)
 
 |Admin|
 :Pilih Menu Maintenance;
@@ -28,29 +27,35 @@ endif
 
 |Admin|
 if (Input Data Maintenance Baru?) then (Ya)
-  repeat
-    |Admin|
-    :Isi Detail Perbaikan/Maintenance;
-    :Klik Tombol Simpan;
-    
-    |Sistem|
-    :Validasi Input Data;
-    if (Input Valid?) then (Ya)
-      :Simpan data permintaan ke satprasDB;
-      :Tampilkan notifikasi sukses;
-    else (Tidak)
-      :fail safe;
-      :Tampilkan pesan error;
-    endif
-    
-    |Admin|
-  repeat while (Tambah Data Lagi?) is (Ya)
-  ->Tidak;
+
+    repeat
+
+        :Isi Detail Perbaikan/Maintenance;
+        :Klik Tombol Simpan;
+
+        |Sistem|
+        :Validasi Input Data;
+
+        if (Input Valid?) then (Ya)
+            :Simpan data permintaan ke satprasDB;
+            :Tampilkan notifikasi sukses;
+        else (Tidak)
+            :Aktifkan fail-safe mode;
+            :Tampilkan pesan error;
+        endif
+
+        |Admin|
+
+    repeat while (Tambah Data Lagi?) is (Ya)
+
+    -> Tidak;
+
 else (Hanya Lihat Data)
+
 endif
 
 |Admin|
 :Kembali ke Halaman Utama;
-stop
 
+stop
 @enduml
