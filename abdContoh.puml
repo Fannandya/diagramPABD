@@ -1,0 +1,54 @@
+@startuml RAT
+
+entity "users" {
+  *idUser : INT <<PK>>
+  --
+  namaUser : VARCHAR(100) not null
+  email : VARCHAR(50) unique 
+  password : VARCHAR(255) not null
+}
+
+entity "paket" {
+  *idPaket : INT <<PK>>
+  --
+  namaPaket : VARCHAR(100) not null
+  harga : INT not null
+  spesifikasi : VARCHAR(500) 
+  tempatAcara : VARCHAR(100) not null
+  statusKetersediaan : boolean
+  foto : binary
+  tanggalReady : DATE
+}
+
+entity "pemesanan" {
+  *idPemesanan : INT <<PK>>
+  --
+  idPaket : INT <<FK>> not null
+  idUser : INT <<FK>> not null
+  namaUser : VARCHAR(100)
+  tglPemesanan: DATE default
+  statusPembayaran : boolean
+}
+
+entity "adminVendor" {
+  *idVendor : INT <<PK>>
+  --
+  namaVendor : VARCHAR(100) not null
+  email : VARCHAR(50) unique
+}
+
+entity "admin"{
+    *idAdmin : INT <<PK>>
+    --
+    namaAdmin : VARCHAR(100) not null
+    email : VARCHAR(50) unique
+    password : VARCHAR(255) not null
+}
+
+paket ||--o{ pemesanan : "dipesan dalam"
+users ||--o{ pemesanan : "memesan"
+adminVendor ||--o{ pemesanan : "konfirmasi pemesanan"
+admin ||--o{ paket : "kelola paket"
+
+
+@enduml

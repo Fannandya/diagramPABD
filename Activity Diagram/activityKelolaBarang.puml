@@ -1,23 +1,23 @@
 @startuml activityKelolaBarang
+
 |Admin|
 start
 :Membuka aplikasi;
 
-|Sistem|
-:Tampilkan halaman login;
+repeat
 
-|Admin|
-:Login dengan username dan password;
+  |Sistem|
+  :Tampilkan halaman login;
 
-|Sistem|
-:Validasi Akun;
-if (Login Berhasil?) then (Ya)
-  :Tampilkan Halaman Utama;
-else (Tidak)
-  :Tampilkan Pesan Error;
-  :Kembali ke Halaman Login;
-  detach
-endif
+  |Admin|
+  :Masukkan username dan password;
+
+  |Sistem|
+  :Validasi Akun;
+
+
+
+repeat while (Login gagal?) is (Ya)
 
 |Admin|
 :Pilih menu Kelola Barang;
@@ -27,25 +27,33 @@ endif
 
 |Admin|
 if (Ingin Tambah Barang?) then (Ya)
+
   |Sistem|
   repeat
     :Tampilkan form tambah barang;
+
     |Admin|
     :Input data barang;
     :Klik Simpan;
+
     |Sistem|
     if (Input Valid?) then (Ya)
       :Simpan data permintaan ke satprasDB;
       :Tampilkan notifikasi sukses;
     else (Tidak)
-      :fail safe;
+      :Fail-safe mode;
       :Tampilkan pesan error;
     endif
+
     |Admin|
+
   repeat while (Tambah barang lagi?) is (Ya)
-  ->Tidak;
+
+  |Sistem|
   :Kembali ke halaman Kelola Barang;
+
 else (Tidak)
+
 endif
 
 stop
