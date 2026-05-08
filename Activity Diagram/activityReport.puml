@@ -1,28 +1,47 @@
 @startuml activityReport
+
+title Activity Diagram Report
+
 |Admin|
 start
 :Membuka aplikasi;
-|Sistem|
-:Tampilkan halaman login;
-|Admin|
-:Login dengan username dan password;
-|Sistem|
-:Validasi login & tampilkan halaman utama;
+
+repeat
+
+    |Sistem|
+    :Tampilkan halaman login;
+
+    |Admin|
+    :Login dengan username dan password;
+
+    |Sistem|
+    :Validasi akun;
+
+repeat while (Login gagal?) is (Ya)
+
 |Admin|
 :Klik tombol Report;
+
 |Sistem|
 :Tampilkan halaman Report;
 
 |Admin|
 if (Ingin cetak ke Excel?) then (Ya)
-  |Sistem|
-  :Tampilkan file Excel;
-  |Admin|
-  :Download dan Simpan file ke komputer;
-else (Tidak/Hanya Lihat)
-  |Admin|
-  :Kembali ke halaman report;
+
+    |Sistem|
+    :Generate file Excel;
+    :Tampilkan file Excel;
+
+    |Admin|
+    :Download dan simpan file ke komputer;
+
+else (Tidak / Hanya Lihat)
+
+    |Admin|
+    :Kembali ke halaman Report;
+
 endif
 
 stop
+
 @enduml
